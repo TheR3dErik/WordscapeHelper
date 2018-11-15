@@ -1,74 +1,85 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <chrono>
+#include <algorithm>
 
 int main()
 {
-    std::cout << "Enter letters in the level: ";
-    std::string chars;
-    std::cin >> chars;
-
-    std::ifstream file { "/Users/erik/CLionProjects/WordscapeHelper/dictionary" };
-
-    auto start = std::chrono::steady_clock::now();
-
-    std::vector<std::string> relevant;
-    std::string line;
-    while (std::getline(file, line))
+    bool looping_levels = true;
+    while (looping_levels)
     {
-        if (line.size() < 3)
-            continue;
+        std::cout << "Enter letters in the level: ";
+        std::string chars;
+        std::cin >> chars;
 
-        bool word_valid = true;
-        std::vector<char> chars_copy;
-        for (char c : chars)
-            chars_copy.push_back(c);
+        std::ifstream file{"dictionary"};
 
-        for (char c : line)
+        auto start = std::chrono::steady_clock::now();
+
+        std::vector<std::string> relevant;
+        std::string line;
+        while (std::getline(file, line))
         {
-            auto index = std::find(chars_copy.begin(), chars_copy.end(), c);
-            if (index != chars_copy.end())
-                chars_copy.erase(index);
-            else
-                word_valid = false;
-        }
-        if (word_valid)
-            relevant.push_back(line);
-    }
+            if (line.size() < 3)
+                continue;
 
-    auto end = std::chrono::steady_clock::now();
-    auto time_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
+            bool word_valid = true;
+            std::vector<char> chars_copy;
+            for (char c : chars)
+                chars_copy.push_back(c);
 
-    std::cout << time_elapsed << " milliseconds elapsed to traverse dictionary" << std::endl;
-
-    bool looping = true;
-    while (looping)
-    {
-        std::cout << '\n' << "Enter template of word (or Q to quit): ";
-        std::string temp;
-        std::cin >> temp;
-
-        if (temp == "Q")
-        {
-            looping = false;
-        }
-        else
-        {
-            std::cout << "Relevant words are: " << std::endl;
-            for (auto s : relevant)
+            for (char c : line)
             {
-                if (s.size() != temp.size())
-                    continue;
+                auto index = std::find(chars_copy.begin(), chars_copy.end(), c);
+                if (index != chars_copy.end())
+                    chars_copy.erase(index);
+                else
+                    word_valid = false;
+            }
+            if (word_valid)
+                relevant.push_back(line);
+        }
 
-                bool rel = true;
-                for (int i = 0; i < s.size(); i++)
+        auto end = std::chrono::steady_clock::now();
+        auto time_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+        std::cout << time_elapsed << " milliseconds elapsed to traverse dictionary" << std::endl;
+
+        bool looping_template = true;
+        while (looping_template)
+        {
+            std::cout << '\n' << "Enter template of word (Q to quit or L to enter new level): ";
+            std::string temp;
+            std::cin >> temp;
+
+            if (temp == "Q")
+            {
+                looping_template = false;
+                looping_levels = false;
+            }
+            else if (temp == "L")
+            {
+                looping_template = false;
+            }
+            else
+            {
+                std::cout << "Relevant words are: " << std::endl;
+                for (auto s : relevant)
                 {
-                    if (temp[i] != '-' && temp[i] != s[i])
-                        rel = false;
-                }
+                    if (s.size() != temp.size())
+                        continue;
 
-                if (rel)
-                    std::cout << s << std::endl;
+                    bool rel = true;
+                    for (int i = 0; i < s.size(); i++)
+                    {
+                        if (temp[i] != '-' && temp[i] != s[i])
+                            rel = false;
+                    }
+
+                    if (rel)
+                        std::cout << s << std::endl;
+                }
             }
         }
     }

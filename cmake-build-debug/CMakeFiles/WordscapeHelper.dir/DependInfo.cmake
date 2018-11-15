@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/erik/CLionProjects/WordscapeHelper/main.cpp" "/Users/erik/CLionProjects/WordscapeHelper/cmake-build-debug/CMakeFiles/WordscapeHelper.dir/main.cpp.o"
+  "/home/erik/CLionProjects/WordscapeHelper/main.cpp" "/home/erik/CLionProjects/WordscapeHelper/cmake-build-debug/CMakeFiles/WordscapeHelper.dir/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

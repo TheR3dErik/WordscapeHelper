@@ -6,11 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/Users/erik/CLionProjects/WordscapeHelper/main.cpp
+/home/erik/CLionProjects/WordscapeHelper/main.cpp
 iostream
 -
 fstream
 -
 vector
+-
+chrono
+-
+algorithm
 -
 
